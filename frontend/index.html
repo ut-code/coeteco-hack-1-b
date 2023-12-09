@@ -43,17 +43,34 @@
 
     <script>
       function submitForm() {
-        // 入力チェック
         const modelVideo = document.getElementById("modelVideo");
         const studentVideo = document.getElementById("studentVideo");
         const tipsText = document.getElementById("tipsText");
 
+        // 入力チェック
         if (
           modelVideo.checkValidity() &&
           studentVideo.checkValidity() &&
           tipsText.checkValidity()
         ) {
-          // フォームの送信処理を追加（実際の処理はバックエンドで行う）
+          // フォームの送信処理
+          const formData = new FormData();
+          formData.append("modelVideo", modelVideo.files[0]);
+          formData.append("studentVideo", studentVideo.files[0]);
+          formData.append("tipsText", tipsText.value);
+
+          fetch("http://127.0.0.1:5000/upload", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // バックエンドからの応答を処理
+              console.log(data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
 
           // リダイレクト
           window.location.href = "result.html"; // 遷移先のファイル名やパスを適切に変更してください。

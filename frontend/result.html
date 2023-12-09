@@ -1,23 +1,86 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlipFlow-Enhancer Results</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <div class="header-content">
-      <h1>FlipFlow-Enhancer</h1>
-      <p>小学生低学年の前転を改善するツール</p>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlipFlow-Enhancer - 結果</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .image-container {
+        display: flex;
+        justify-content: space-between; /* 画像を横に並べ、間隔を均等に配置 */
+      }
 
-  <main>
-    <div class="result-container">
-      <h2>重要なフレームについて</h2>
-    </div>
-  </main>
-</body>
+      .image-container img {
+        max-width: 48%; /* 画像の最大幅を48%に設定 */
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>FlipFlow-Enhancer</h1>
+        <p>小学生低学年の前転を改善するツール - 結果</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="result-container">
+        <h2 style="color: #e74c3c">改善点</h2>
+
+        <!-- 改善点1 -->
+        <section class="improvement-section">
+          <h3>改善点1</h3>
+          <div class="image-container">
+            <img src="teacher_image_1.jpg" alt="教師の画像1" />
+            <img src="student_image_1.jpg" alt="生徒の画像1" />
+          </div>
+          <p>
+            このフレームでは、姿勢が安定していません。生徒さんはもう少し背筋を伸ばすように心がけましょう。
+          </p>
+        </section>
+
+        <!-- 改善点2 -->
+        <section class="improvement-section">
+          <h3>改善点2</h3>
+          <div class="image-container">
+            <img src="teacher_image_1.jpg" alt="教師の画像2" />
+            <img src="student_image_1.jpg" alt="生徒の画像2" />
+          </div>
+          <p>
+            手の位置が不安定です。教師のように手をしっかり支えて行うと良いでしょう。
+          </p>
+        </section>
+
+        <!-- 改善点3 -->
+        <section class="improvement-section">
+          <h3>改善点3</h3>
+          <div class="image-container">
+            <img src="teacher_image_1.jpg" alt="教師の画像3" />
+            <img src="student_image_1.jpg" alt="生徒の画像3" />
+          </div>
+          <p>
+            目線が安定していません。前転中も目線を一点に定めるようにしましょう。
+          </p>
+        </section>
+
+        <!-- 改善点4 -->
+        <section class="improvement-section">
+          <h3>改善点4</h3>
+          <div class="image-container">
+            <img src="teacher_image_1.jpg" alt="教師の画像4" />
+            <img src="student_image_1.jpg" alt="生徒の画像4" />
+          </div>
+          <p>
+            足の開きが大きいです。足をもう少し閉じて安定感を増すように心がけましょう。
+          </p>
+        </section>
+
+        <button class="back-to-index" onclick="location.href='index.html'">
+          Index.html に戻る
+        </button>
+      </div>
+    </main>
+  </body>
 </html>
