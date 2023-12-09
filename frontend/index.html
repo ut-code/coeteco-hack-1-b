@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlipFlow-Enhancer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>FlipFlow-Enhancer</h1>
+        <p>小学生低学年の前転を改善するツール</p>
+      </div>
+    </header>
+
+    <main>
+      <form id="uploadForm">
+        <label for="modelVideo">模範の動画をアップロード</label>
+        <input
+          type="file"
+          id="modelVideo"
+          accept="video/*"
+          required
+          onchange="updateFileName(this, 'modelFileLabel')"
+        />
+
+        <label for="studentVideo">生徒の動画をアップロード</label>
+        <input
+          type="file"
+          id="studentVideo"
+          accept="video/*"
+          required
+          onchange="updateFileName(this, 'studentFileLabel')"
+        />
+
+        <label for="tipsText">教科書のTipsを入力</label>
+        <textarea id="tipsText" rows="4" required></textarea>
+
+        <button type="button" onclick="submitForm()">提出</button>
+      </form>
+    </main>
+
+    <script>
+      function submitForm() {
+        // 入力チェック
+        const modelVideo = document.getElementById("modelVideo");
+        const studentVideo = document.getElementById("studentVideo");
+        const tipsText = document.getElementById("tipsText");
+
+        if (
+          modelVideo.checkValidity() &&
+          studentVideo.checkValidity() &&
+          tipsText.checkValidity()
+        ) {
+          // フォームの送信処理を追加（実際の処理はバックエンドで行う）
+
+          // リダイレクト
+          window.location.href = "result.html"; // 遷移先のファイル名やパスを適切に変更してください。
+        } else {
+          alert("入力が不足しています。全ての項目を入力してください。");
+        }
+      }
+
+      function updateFileName(input, labelId) {
+        const label = document.getElementById(labelId);
+        if (input.files.length > 0) {
+          label.textContent = input.files[0].name;
+        } else {
+          label.textContent = "Choose File";
+        }
+      }
+    </script>
+  </body>
+</html>
