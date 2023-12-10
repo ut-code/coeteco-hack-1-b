@@ -1,48 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>File Upload Form</title>
     <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-    <h1>File Upload Form</h1>
-    <form id="uploadForm">
-        <!-- フォームの内容（動画2つと文字列の入力） -->
-        <label for="video1">Upload Video 1:</label>
-        <input type="file" name="video1" accept="video/*" required>
-        <br>
-        <label for="video2">Upload Video 2:</label>
-        <input type="file" name="video2" accept="video/*" required>
-        <br>
-        <label for="input_text">Input Text:</label>
-        <input type="text" name="input_text" required>
-        <br>
-        <button type="button" onclick="uploadData()">Upload</button>
-    </form>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>FlipFlow-Enhancer</h1>
+        <p>小学生低学年の前転を改善するツール</p>
+      </div>
+    </header>
+
+    <main>
+      <form id="uploadForm">
+        <label for="modelVideo">模範の動画をアップロード</label>
+        <input
+          type="file"
+          id="modelVideo"
+          accept="video/*"
+          required
+          onchange="updateFileName(this, 'modelFileLabel')"
+        />
+
+        <label for="studentVideo">生徒の動画をアップロード</label>
+        <input
+          type="file"
+          id="studentVideo"
+          accept="video/*"
+          required
+          onchange="updateFileName(this, 'studentFileLabel')"
+        />
+
+        <label for="tipsText">教科書のTipsを入力</label>
+        <textarea id="tipsText" rows="4" required></textarea>
+
+        <button type="button" onclick="submitForm()">提出</button>
+      </form>
+    </main>
 
     <!-- 結果を表示する要素 -->
     <div id="result">a</div>
 
     <!-- JavaScriptの追加 -->
     <script>
-        function uploadData() {
-            // フォームデータを作成
-            var formData = new FormData(document.getElementById('uploadForm'));
+      function submitForm() {
+        const modelVideo = document.getElementById("modelVideo");
+        const studentVideo = document.getElementById("studentVideo");
+        const tipsText = document.getElementById("tipsText");
 
-            // 非同期通信を行う
-            fetch('http://server-endpoint/upload', {
-                method: 'POST',
-                body: formData
+        // 入力チェック
+        if (
+          modelVideo.checkValidity() &&
+          studentVideo.checkValidity() &&
+          tipsText.checkValidity()
+        ) {
+          // フォームの送信処理
+          const formData = new FormData();
+          formData.append("modelVideo", modelVideo.files[0]);
+          formData.append("studentVideo", studentVideo.files[0]);
+          formData.append("tipsText", tipsText.value);
+
+          fetch("http://127.0.0.1:5000/upload", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // バックエンドからの応答を処理
+              console.log(data);
             })
-            .then(response => response.json())
-            .then(data => {
-                // 結果を表示する要素に結果をセット
-                document.getElementById('result').innerText = data.message;
-            })
-            .catch(error => console.error('Error:', error));
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+
+          // リダイレクト
+          window.location.href = "result.html"; // 遷移先のファイル名やパスを適切に変更してください。
+        } else {
+          alert("入力が不足しています。全ての項目を入力してください。");
         }
+      }
+
+      function updateFileName(input, labelId) {
+        const label = document.getElementById(labelId);
+        if (input.files.length > 0) {
+          label.textContent = input.files[0].name;
+        } else {
+          label.textContent = "Choose File";
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
