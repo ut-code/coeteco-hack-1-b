@@ -40,7 +40,14 @@
         <button type="button" onclick="submitForm()">提出</button>
       </form>
       <!-- 結果を表示する要素 -->
-      <div id="result"></div>
+      <div id="result" style="display: none">
+        <div>お手本の画像</div>
+        <img id="model-img" alt="" />
+        <div>あなたの画像</div>
+        <img id="your-img" alt="" />
+        <div>評価</div>
+        <div id="gpt-message"></div>
+      </div>
     </main>
 
     <!-- JavaScriptの追加 -->
@@ -72,29 +79,28 @@
             .then((response) => response.formData())
             .then((formdata) => {
               // サーバーが送信した画像1つ目のデータ
-              const image1Blob = formData.get("processed_image1");
+              const image1Blob = formData.get("model_img");
               const image1Url = URL.createObjectURL(image1Blob);
-              document.getElementById(
-                "image1"
-              ).innerHTML = `<img src="${image1Url}" alt="Processed Image 1">`;
+              document.getElementById("image1").src = image1Url;
 
               // サーバーが送信した画像2つ目のデータ
-              const image2Blob = formData.get("processed_image2");
+              const image2Blob = formData.get("your_img");
               const image2Url = URL.createObjectURL(image2Blob);
-              document.getElementById(
-                "image2"
-              ).innerHTML = `<img src="${image2Url}" alt="Processed Image 2">`;
+              document.getElementById("image2").src = image2Url;
 
               // サーバーが送信したテキストデータ
-              const textData = formData.get("processed_text");
-              document.getElementById("text").innerText = textData;
+              const textData = formData.get("gpt_message");
+              document.getElementById("gpt-message").innerText = textData;
 
               // 結果を表示する要素に結果をセット
-              document.getElementById("result").innerText =
-                "Files processed and displayed successfully";
+              const resultDiv = document.getElementById("result");
+              resultDiv.style = "display: block";
             })
             .catch((error) => {
               console.error("Error:", error);
+              const resultDiv = document.getElementById("result");
+              resultDiv.textContent =
+                "エラーが発生しました。再読み込みしてもう一度お試しください。";
             });
         } else {
           alert("入力が不足しています。全ての項目を入力してください。");
