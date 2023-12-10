@@ -1,86 +1,85 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlipFlow-Enhancer - 結果</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Improvement Results</title>
     <style>
-      .image-container {
-        display: flex;
-        justify-content: space-between; /* 画像を横に並べ、間隔を均等に配置 */
+      .improvement-section {
+        margin-bottom: 20px;
       }
 
-      .image-container img {
-        max-width: 48%; /* 画像の最大幅を48%に設定 */
-        height: auto;
+      .image-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      img {
+        max-width: 200px;
+        max-height: 200px;
       }
     </style>
   </head>
   <body>
-    <header>
-      <div class="header-content">
-        <h1>FlipFlow-Enhancer</h1>
-        <p>小学生低学年の前転を改善するツール - 結果</p>
-      </div>
-    </header>
+    <h1>Improvement Results</h1>
+    <main id="improvementsContainer"></main>
 
-    <main>
-      <div class="result-container">
-        <h2 style="color: #e74c3c">改善点</h2>
+    <script>
+      // JSONデータを取得し、表示する関数
+      function displayImprovements() {
+        // バックエンドからのJSONデータを取得するためのリクエストを送信
+        fetch("http://example.com/api/improvements") // バックエンドのエンドポイントのURLを適切に変更
+          .then((response) => response.json())
+          .then((data) => {
+            const improvementsContainer = document.getElementById(
+              "improvementsContainer"
+            );
 
-        <!-- 改善点1 -->
-        <section class="improvement-section">
-          <h3>改善点1</h3>
-          <div class="image-container">
-            <img src="teacher_image_1.jpg" alt="教師の画像1" />
-            <img src="student_image_1.jpg" alt="生徒の画像1" />
-          </div>
-          <p>
-            このフレームでは、姿勢が安定していません。生徒さんはもう少し背筋を伸ばすように心がけましょう。
-          </p>
-        </section>
+            // 各改善点の情報をループして表示する
+            data.improvements.forEach((improvement) => {
+              // 改善点のセクション要素を作成
+              const improvementSection = document.createElement("section");
+              improvementSection.classList.add("improvement-section");
 
-        <!-- 改善点2 -->
-        <section class="improvement-section">
-          <h3>改善点2</h3>
-          <div class="image-container">
-            <img src="teacher_image_1.jpg" alt="教師の画像2" />
-            <img src="student_image_1.jpg" alt="生徒の画像2" />
-          </div>
-          <p>
-            手の位置が不安定です。教師のように手をしっかり支えて行うと良いでしょう。
-          </p>
-        </section>
+              // タイトルを表示
+              const title = document.createElement("h3");
+              title.textContent = improvement.title;
+              improvementSection.appendChild(title);
 
-        <!-- 改善点3 -->
-        <section class="improvement-section">
-          <h3>改善点3</h3>
-          <div class="image-container">
-            <img src="teacher_image_1.jpg" alt="教師の画像3" />
-            <img src="student_image_1.jpg" alt="生徒の画像3" />
-          </div>
-          <p>
-            目線が安定していません。前転中も目線を一点に定めるようにしましょう。
-          </p>
-        </section>
+              // 画像を表示
+              const imageContainer = document.createElement("div");
+              imageContainer.classList.add("image-container");
 
-        <!-- 改善点4 -->
-        <section class="improvement-section">
-          <h3>改善点4</h3>
-          <div class="image-container">
-            <img src="teacher_image_1.jpg" alt="教師の画像4" />
-            <img src="student_image_1.jpg" alt="生徒の画像4" />
-          </div>
-          <p>
-            足の開きが大きいです。足をもう少し閉じて安定感を増すように心がけましょう。
-          </p>
-        </section>
+              const teacherImage = document.createElement("img");
+              teacherImage.src = improvement.teacherImage;
+              teacherImage.alt = "教師の画像";
+              imageContainer.appendChild(teacherImage);
 
-        <button class="back-to-index" onclick="location.href='index.html'">
-          Index.html に戻る
-        </button>
-      </div>
-    </main>
+              const studentImage = document.createElement("img");
+              studentImage.src = improvement.studentImage;
+              studentImage.alt = "生徒の画像";
+              imageContainer.appendChild(studentImage);
+
+              improvementSection.appendChild(imageContainer);
+
+              // 説明を表示
+              const description = document.createElement("p");
+              description.textContent = improvement.description;
+              improvementSection.appendChild(description);
+
+              // 改善点のセクション要素をコンテナに追加
+              improvementsContainer.appendChild(improvementSection);
+            });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      // ページの読み込み完了時に表示を行う
+      window.addEventListener("DOMContentLoaded", displayImprovements);
+    </script>
   </body>
 </html>
