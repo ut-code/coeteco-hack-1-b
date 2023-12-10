@@ -64,16 +64,34 @@
           formData.append("studentVideo", studentVideo.files[0]);
           formData.append("tipsText", tipsText.value);
 
-          fetch("http://127.0.0.1:5000/upload", {
+          fetch("http://192.168.42.1:5000/upload", {
             method: "POST",
             body: formData,
           })
-            .then((response) => response.json())
-            .then((data) => {
-              // バックエンドからの応答を処理
-              console.log(data);
-              resultDiv.textContent = data.result; // data.resultは実際の結果に合わせて変更する
-              uploadForm.style.display = "none";
+            // 取得した生データを解析して画像と文字列を取り出す
+            .then((response) => response.formData())
+            .then((formdata) => {
+              // サーバーが送信した画像1つ目のデータ
+              const image1Blob = formData.get("processed_image1");
+              const image1Url = URL.createObjectURL(image1Blob);
+              document.getElementById(
+                "image1"
+              ).innerHTML = `<img src="${image1Url}" alt="Processed Image 1">`;
+
+              // サーバーが送信した画像2つ目のデータ
+              const image2Blob = formData.get("processed_image2");
+              const image2Url = URL.createObjectURL(image2Blob);
+              document.getElementById(
+                "image2"
+              ).innerHTML = `<img src="${image2Url}" alt="Processed Image 2">`;
+
+              // サーバーが送信したテキストデータ
+              const textData = formData.get("processed_text");
+              document.getElementById("text").innerText = textData;
+
+              // 結果を表示する要素に結果をセット
+              document.getElementById("result").innerText =
+                "Files processed and displayed successfully";
             })
             .catch((error) => {
               console.error("Error:", error);
