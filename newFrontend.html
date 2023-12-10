@@ -39,10 +39,9 @@
 
         <button type="button" onclick="submitForm()">提出</button>
       </form>
+      <!-- 結果を表示する要素 -->
+      <div id="result">ここにresult</div>
     </main>
-
-    <!-- 結果を表示する要素 -->
-    <div id="result">a</div>
 
     <!-- JavaScriptの追加 -->
     <script>
@@ -50,6 +49,8 @@
         const modelVideo = document.getElementById("modelVideo");
         const studentVideo = document.getElementById("studentVideo");
         const tipsText = document.getElementById("tipsText");
+        const uploadForm = document.getElementById("uploadForm");
+        const resultDiv = document.getElementById("result");
 
         // 入力チェック
         if (
@@ -71,13 +72,12 @@
             .then((data) => {
               // バックエンドからの応答を処理
               console.log(data);
+              resultDiv.textContent = data.result; // data.resultは実際の結果に合わせて変更する
+              uploadForm.style.display = "none";
             })
             .catch((error) => {
               console.error("Error:", error);
             });
-
-          // リダイレクト
-          window.location.href = "result.html"; // 遷移先のファイル名やパスを適切に変更してください。
         } else {
           alert("入力が不足しています。全ての項目を入力してください。");
         }
