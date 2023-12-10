@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Form</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>File Upload Form</h1>
+    <form id="uploadForm">
+        <!-- フォームの内容（動画2つと文字列の入力） -->
+        <label for="video1">Upload Video 1:</label>
+        <input type="file" name="video1" accept="video/*" required>
+        <br>
+        <label for="video2">Upload Video 2:</label>
+        <input type="file" name="video2" accept="video/*" required>
+        <br>
+        <label for="input_text">Input Text:</label>
+        <input type="text" name="input_text" required>
+        <br>
+        <button type="button" onclick="uploadData()">Upload</button>
+    </form>
+
+    <!-- 結果を表示する要素 -->
+    <div id="result">a</div>
+
+    <!-- JavaScriptの追加 -->
+    <script>
+        function uploadData() {
+            // フォームデータを作成
+            var formData = new FormData(document.getElementById('uploadForm'));
+
+            // 非同期通信を行う
+            fetch('http://server-endpoint/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 結果を表示する要素に結果をセット
+                document.getElementById('result').innerText = data.message;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
